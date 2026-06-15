@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Events — Wayward City Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Chakra+Petch:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void-900:#05050c; --void-800:#0a0a14; --void-700:#10101e; --void-600:#161628;
+  --void-500:#1f1f36; --void-400:#2a2a45; --void-300:#3a3a5c; --ink-black:#000000;
+  --cyan-400:#38c6ff; --cyan-500:#18a8f0;
+  --magenta-400:#ff4fa3; --magenta-500:#f5197f; --magenta-600:#d10f6a;
+  --purple-400:#a567ff; --purple-500:#7a3ff2; --purple-600:#5e27c9;
+  --orange-400:#ff9a55; --orange-500:#ff7a3c;
+  --warning:#ffb23c; --success:#2fd47e; --danger:#ff4d5e;
+  --text-hi:#ffffff; --text-body:#c5c6da; --text-muted:#8688a3; --text-faint:#5c5e78;
+  --font-display:'Orbitron','Chakra Petch',sans-serif;
+  --font-heading:'Chakra Petch','Rajdhani',sans-serif;
+  --font-body:'Rajdhani','Chakra Petch',system-ui,sans-serif;
+  --grad-chrome:linear-gradient(95deg,#41d1fd 0%,#5ccffd 24%,#9cd8f4 38%,#f250aa 56%,#fc537e 80%,#fb856f 100%);
+  --shadow-lg:0 18px 48px rgba(0,0,0,0.6);
+  --glow-cyan-sm:0 0 0 1px rgba(56,198,255,0.6),0 0 12px rgba(56,198,255,0.55);
+  --glow-magenta-sm:0 0 0 1px rgba(245,25,127,0.6),0 0 12px rgba(245,25,127,0.55);
+  --glow-text-cyan:0 0 10px rgba(56,198,255,0.7),0 0 24px rgba(24,168,240,0.4);
+  --glow-text-magenta:0 0 10px rgba(245,25,127,0.7);
+  --grid-line:rgba(56,198,255,0.06);
+  --radius-sm:4px; --radius-md:6px; --radius-lg:10px;
+  --ease-out:cubic-bezier(0.16,1,0.3,1); --transition-base:all 200ms var(--ease-out);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--void-900);color:var(--text-body);font-family:var(--font-body);min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;}
+body::-webkit-scrollbar{width:10px;}
+body::-webkit-scrollbar-track{background:#05050c;}
+body::-webkit-scrollbar-thumb{background:#2a2a45;border-radius:5px;}
+::selection{background:rgba(245,25,127,0.45);color:#fff;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:var(--radius-md);font-family:var(--font-heading);font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:var(--transition-base);}
+.btn-primary{background:var(--magenta-500);color:#fff;padding:0 24px;height:48px;box-shadow:var(--glow-magenta-sm);}
+.btn-primary:hover{background:var(--magenta-400);}
+.btn-outline{background:transparent;color:var(--text-hi);padding:0 24px;height:48px;border:1px solid var(--void-300);}
+.btn-outline:hover{border-color:var(--cyan-400);color:var(--cyan-400);}
+.btn-sm{height:36px;font-size:12px;padding:0 16px;}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:var(--radius-md);border:none;background:transparent;color:var(--text-body);transition:var(--transition-base);}
+.icon-btn:hover{background:rgba(255,255,255,0.06);color:var(--text-hi);}
+.icon-btn.outline{border:1px solid var(--void-400);}
+.ww-input{background:var(--void-600);border:1px solid var(--void-400);border-radius:var(--radius-md);color:var(--text-hi);font-family:var(--font-body);font-size:14px;padding:0 14px;outline:none;transition:border-color 160ms;}
+.ww-input:focus{border-color:var(--cyan-500);}
+.mega-link{font-family:var(--font-heading);font-size:14px;font-weight:500;color:var(--text-body);transition:color 160ms;}
+.mega-link:hover{color:var(--cyan-400);}
+.mobile-nav-link{display:block;font-family:var(--font-heading);font-size:16px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-hi);padding:16px 4px;border-bottom:1px solid var(--void-400);transition:color 160ms;}
+.mobile-nav-link:hover{color:var(--cyan-400);}
+.foot-link{font-size:14px;font-weight:500;color:var(--text-muted);transition:color 160ms;}
+.foot-link:hover{color:var(--cyan-400);}
+.ww-hamburger{display:none !important;}
+@media(max-width:1080px){.ww-nav-desktop{display:none !important;}.ww-hamburger{display:flex !important;}}
+@media(max-width:760px){.events-grid{grid-template-columns:1fr !important;}.cal-grid{font-size:11px !important;}}
+@media(max-width:600px){.ww-footer-grid{grid-template-columns:1fr !important;}.info-strip{grid-template-columns:1fr !important;}}
+
+.game-tab{font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;padding:16px 0 14px;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;transition:color 160ms,border-color 160ms;}
+.game-tab.active{color:var(--magenta-400);border-bottom-color:var(--magenta-500);}
+.game-tab:hover:not(.active){color:var(--text-hi);}
+
+.type-pill{display:inline-flex;align-items:center;padding:8px 18px;border-radius:99px;border:1px solid var(--void-400);background:transparent;color:var(--text-muted);font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:var(--transition-base);}
+.type-pill.active{border-color:var(--cyan-400);color:var(--cyan-400);background:rgba(56,198,255,0.08);}
+.type-pill:hover:not(.active){border-color:var(--void-300);color:var(--text-body);}
+
+.view-btn{display:inline-flex;align-items:center;padding:8px 16px;gap:6px;border-radius:var(--radius-md);border:1px solid var(--void-400);background:transparent;color:var(--text-muted);font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:var(--transition-base);}
+.view-btn.active{border-color:var(--cyan-400);color:var(--cyan-400);background:rgba(56,198,255,0.08);}
+.view-btn:hover:not(.active){color:var(--text-body);}
+
+.event-card{border-radius:14px;border:1px solid var(--void-400);background:var(--void-700);overflow:hidden;transition:border-color 200ms,box-shadow 200ms,transform 200ms;display:flex;flex-direction:column;}
+.event-card:hover{border-color:rgba(255,255,255,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translateY(-3px);}
+</style>
+</head>
+<body>
+
+<!-- Announcement bar -->
+<div style="position:relative;z-index:60;background:linear-gradient(90deg,var(--magenta-600) 0%,var(--magenta-500) 45%,var(--purple-500) 100%);color:#fff;">
+  <div style="max-width:1504px;margin:0 auto;padding:0 48px;height:42px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <div style="display:flex;align-items:baseline;gap:10px;font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;">
+      <span>Friday Night Magic — tonight at 6 PM</span>
+      <span style="color:rgba(255,255,255,0.55);">·</span>
+      <span style="text-decoration:underline;text-underline-offset:3px;cursor:pointer;">Reserve your seat</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span style="font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:0.22em;color:rgba(255,255,255,0.75);text-transform:uppercase;">Starts in</span>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span id="cd-h" style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;min-width:22px;text-align:center;">--</span><span style="font-size:8px;font-family:var(--font-heading);letter-spacing:0.16em;color:rgba(255,255,255,0.65);">HRS</span></div>
+        <span style="color:rgba(255,255,255,0.5);">:</span>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span id="cd-m" style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;min-width:22px;text-align:center;">--</span><span style="font-size:8px;font-family:var(--font-heading);letter-spacing:0.16em;color:rgba(255,255,255,0.65);">MIN</span></div>
+        <span style="color:rgba(255,255,255,0.5);">:</span>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span id="cd-s" style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;min-width:22px;text-align:center;">--</span><span style="font-size:8px;font-family:var(--font-heading);letter-spacing:0.16em;color:rgba(255,255,255,0.65);">SEC</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky Header -->
+<div id="site-header" style="position:sticky;top:0;z-index:80;background:rgba(5,5,12,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--void-400);">
+  <div style="max-width:1504px;margin:0 auto;padding:0 48px;height:72px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="ww-hamburger icon-btn outline" id="hamburger-btn" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg>
+      </button>
+      <nav class="ww-nav-desktop" style="display:flex;align-items:center;gap:30px;">
+        <span id="nav-shop" style="display:flex;align-items:center;gap:6px;font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-hi);cursor:pointer;padding:26px 0;">Shop
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+        <a href="singles.html" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-body)'">Singles</a>
+        <a href="events.html" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-hi);text-shadow:var(--glow-text-cyan);">Events</a>
+        <a href="index.html#sec-sealed" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-body)'">Deals</a>
+        <a href="#" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-body)'">About</a>
+      </nav>
+    </div>
+    <a href="index.html"><img src="assets/logo-wordmark.png" alt="Wayward City" style="height:72px;transform:translateY(10px);position:relative;z-index:2;filter:drop-shadow(0 6px 16px rgba(5,5,12,0.7));"></a>
+    <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+      <button class="icon-btn" id="search-btn" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Account">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Cart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mega menu -->
+  <div id="mega-menu" style="display:none;position:absolute;top:100%;left:0;right:0;background:rgba(8,8,18,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--void-400);box-shadow:var(--shadow-lg);">
+    <div style="max-width:1280px;margin:0 auto;padding:40px 48px 44px;display:grid;grid-template-columns:1.4fr 1fr 1.1fr;gap:56px;">
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;">By Game</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 32px;">
+          <a href="singles.html?game=mtg" class="mega-link">Magic: The Gathering</a>
+          <a href="singles.html?game=pokemon" class="mega-link">Pokémon</a>
+          <a href="singles.html?game=ygo" class="mega-link">Yu-Gi-Oh!</a>
+          <a href="singles.html?game=onepiece" class="mega-link">One Piece Card Game</a>
+          <a href="singles.html?game=lorcana" class="mega-link">Disney Lorcana</a>
+          <a href="singles.html?game=fab" class="mega-link">Flesh and Blood</a>
+          <a href="singles.html?game=digimon" class="mega-link">Digimon</a>
+          <a href="singles.html?game=sw" class="mega-link">Star Wars Unlimited</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;">By Product</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <a href="singles.html" class="mega-link">Singles</a>
+          <span class="mega-link">Sealed Product</span>
+          <span class="mega-link">Graded Cards</span>
+          <span class="mega-link">Accessories</span>
+        </div>
+      </div>
+      <a href="index.html#sec-sealed" style="position:relative;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--void-400);min-height:180px;display:block;background-image:url('assets/megamenu-skyline.png');background-size:cover;background-position:center;" onmouseover="this.style.borderColor='var(--magenta-500)';this.style.boxShadow='var(--glow-magenta-sm)'" onmouseout="this.style.borderColor='var(--void-400)';this.style.boxShadow=''">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,12,0.05) 0%,rgba(5,5,12,0.35) 45%,rgba(5,5,12,0.9) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;gap:4px;">
+          <span style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--magenta-400);">Hot Deals</span>
+          <span style="font-family:var(--font-heading);font-size:17px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-hi);">Shop all deals →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" style="display:none;position:absolute;top:100%;left:0;right:0;background:rgba(8,8,18,0.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--void-400);box-shadow:var(--shadow-lg);">
+    <div style="max-width:1504px;margin:0 auto;padding:10px 32px 22px;display:flex;flex-direction:column;">
+      <span class="mobile-nav-link">Shop</span>
+      <a href="singles.html" class="mobile-nav-link">Singles</a>
+      <a href="events.html" class="mobile-nav-link" style="color:var(--cyan-400);">Events</a>
+      <a href="index.html#sec-sealed" class="mobile-nav-link">Deals</a>
+      <a href="#" class="mobile-nav-link">About</a>
+    </div>
+  </div>
+</div>
+
+<!-- Events Hero -->
+<section style="background:linear-gradient(180deg,var(--void-800) 0%,var(--void-900) 100%);border-bottom:1px solid var(--void-400);padding:72px 48px 64px;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;"></div>
+  <div style="max-width:1280px;margin:0 auto;position:relative;">
+    <div style="font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;">
+      <a href="index.html" style="color:var(--text-muted);" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
+      <span style="margin:0 8px;">›</span>
+      <span style="color:var(--text-body);">Events</span>
+    </div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(40px,6vw,80px);font-weight:900;line-height:0.9;letter-spacing:0.02em;text-transform:uppercase;color:var(--text-hi);margin-bottom:18px;">Events &<br>Tournaments</h1>
+    <p style="font-size:17px;font-weight:500;color:var(--text-muted);max-width:440px;margin-bottom:36px;">Something happening every single day.</p>
+    <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <span style="font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--text-hi);line-height:1;">7+</span>
+        <span style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);">Events / Week</span>
+      </div>
+      <div style="width:1px;height:48px;background:var(--void-400);"></div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <span style="font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--text-hi);line-height:1;">9</span>
+        <span style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);">Games</span>
+      </div>
+      <div style="width:1px;height:48px;background:var(--void-400);"></div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <span style="font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--text-hi);line-height:1;">Free*</span>
+        <span style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);">Entry most events</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Game Tabs + View Toggle (sticky) -->
+<div style="position:sticky;top:72px;z-index:70;background:rgba(5,5,12,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--void-400);">
+  <div style="max-width:1280px;margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <div style="display:flex;gap:24px;overflow-x:auto;scrollbar-width:none;" id="game-tabs"></div>
+    <div style="display:flex;gap:6px;flex-shrink:0;padding:14px 0;">
+      <button class="view-btn active" id="view-list-btn" onclick="setView('list')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        List
+      </button>
+      <button class="view-btn" id="view-cal-btn" onclick="setView('calendar')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Calendar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Type Filter Pills -->
+<div style="background:var(--void-800);border-bottom:1px solid var(--void-400);padding:16px 48px;">
+  <div style="max-width:1280px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;" id="type-filters"></div>
+</div>
+
+<main style="max-width:1280px;margin:0 auto;padding:40px 48px 80px;">
+  <!-- LIST VIEW -->
+  <div id="list-view">
+    <!-- Featured Spotlight -->
+    <div id="featured-event" style="margin-bottom:40px;border:1px solid var(--void-400);border-radius:16px;background:var(--void-700);overflow:hidden;display:grid;grid-template-columns:360px 1fr;">
+      <!-- left visual -->
+      <div style="position:relative;background:linear-gradient(135deg,#10101e 0%,#1a0a2e 100%);min-height:280px;overflow:hidden;display:flex;align-items:flex-end;padding:28px;">
+        <div style="position:absolute;inset:0;background-image:url('assets/img-city-neon.png');background-size:cover;background-position:center;opacity:0.35;"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(5,5,12,0.85) 100%);"></div>
+        <div style="position:relative;z-index:2;">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:var(--magenta-500);color:#fff;font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;padding:6px 12px;border-radius:4px;margin-bottom:10px;">
+            <span style="width:6px;height:6px;border-radius:99px;background:#fff;animation:pulse 1.5s ease-in-out infinite;"></span>
+            Tonight — Friday Night Magic
+          </div>
+          <div style="font-family:var(--font-display);font-size:28px;font-weight:800;text-transform:uppercase;color:var(--text-hi);line-height:1.1;">Friday Night<br>Magic</div>
+        </div>
+      </div>
+      <!-- right details -->
+      <div style="padding:32px 36px;display:flex;flex-direction:column;gap:20px;justify-content:center;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <div style="font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Date & Time</div>
+            <div style="font-family:var(--font-heading);font-size:15px;font-weight:600;color:var(--text-hi);" id="featured-datetime">Tonight · 6:00 PM</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Format</div>
+            <div style="font-family:var(--font-heading);font-size:15px;font-weight:600;color:var(--text-hi);">Standard</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Entry</div>
+            <div style="font-family:var(--font-heading);font-size:15px;font-weight:600;color:var(--success);">Free</div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Seats Available</div>
+            <div style="font-family:var(--font-heading);font-size:15px;font-weight:600;color:var(--warning);">14 left</div>
+          </div>
+        </div>
+        <p style="font-size:15px;font-weight:500;color:var(--text-muted);line-height:1.6;">Standard format, best 3-of-5 rounds. Prize support for top finishers.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn btn-primary">Register Now</button>
+          <button class="btn btn-outline btn-sm">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events grid -->
+    <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px;" id="events-section-label">Upcoming Events</div>
+    <div id="events-grid" class="events-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;"></div>
+    <div id="no-events" style="display:none;text-align:center;padding:80px 0;color:var(--text-muted);font-family:var(--font-heading);font-size:14px;letter-spacing:0.1em;">No events match your filters.</div>
+  </div>
+
+  <!-- CALENDAR VIEW -->
+  <div id="cal-view" style="display:none;">
+    <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px;" id="cal-month-label"></div>
+    <div class="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;border:1px solid var(--void-400);border-radius:12px;overflow:hidden;" id="cal-grid"></div>
+  </div>
+</main>
+
+<!-- Info Strip -->
+<section style="background:var(--void-800);border-top:1px solid var(--void-400);border-bottom:1px solid var(--void-400);padding:56px 48px;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="info-strip" style="display:grid;grid-template-columns:repeat(3,1fr);gap:48px;">
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--cyan-400);margin-bottom:14px;">Where we're at</div>
+        <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--text-hi);margin-bottom:6px;">1247 NE Alberta St</div>
+        <div style="font-size:15px;color:var(--text-muted);">Portland, OR 97211</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--cyan-400);margin-bottom:14px;">Hours</div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:15px;color:var(--text-body);">
+          <div style="display:flex;gap:16px;"><span style="color:var(--text-muted);min-width:80px;">Mon – Thu</span><span>12pm – 9pm</span></div>
+          <div style="display:flex;gap:16px;"><span style="color:var(--text-muted);min-width:80px;">Friday</span><span>12pm – 11pm</span></div>
+          <div style="display:flex;gap:16px;"><span style="color:var(--text-muted);min-width:80px;">Saturday</span><span>10am – 10pm</span></div>
+          <div style="display:flex;gap:16px;"><span style="color:var(--text-muted);min-width:80px;">Sunday</span><span>11am – 8pm</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--cyan-400);margin-bottom:14px;">Join Our Discord</div>
+        <div style="font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--text-hi);margin-bottom:10px;">discord.gg/waywardcity</div>
+        <p style="font-size:15px;color:var(--text-muted);">Event announcements, deck help, community picks & more.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section style="background:var(--void-900);border-bottom:1px solid var(--void-400);padding:64px 48px;">
+  <div style="max-width:640px;margin:0 auto;text-align:center;">
+    <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan-400);text-shadow:var(--glow-text-cyan);margin-bottom:14px;">Stay in the loop</div>
+    <h2 style="font-family:var(--font-display);font-size:32px;font-weight:800;text-transform:uppercase;color:var(--text-hi);margin-bottom:10px;">Never miss an event</h2>
+    <p style="font-size:16px;color:var(--text-muted);margin-bottom:28px;">Weekly schedule drops every Monday morning.</p>
+    <div style="display:flex;gap:10px;max-width:480px;margin:0 auto;">
+      <input type="email" class="ww-input" placeholder="your@email.com" style="flex:1;height:48px;">
+      <button class="btn btn-primary">Subscribe</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background:var(--void-800);border-top:1px solid var(--void-400);padding:64px 48px 48px;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="ww-footer-grid" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;">
+      <div>
+        <a href="index.html"><img src="assets/logo-wordmark.png" alt="Wayward City" style="height:44px;margin-bottom:20px;"></a>
+        <p style="font-size:15px;font-weight:500;line-height:1.6;color:var(--text-muted);max-width:280px;margin:0 0 20px;">Your tabletop home in Portland — singles, sealed & supplies across nine games.</p>
+        <div style="font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:0.1em;color:var(--text-faint);">1247 NE Alberta St · Portland, OR 97211</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-hi);margin-bottom:16px;">Shop</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="singles.html" class="foot-link">Singles</a>
+          <a href="#" class="foot-link">Sealed Product</a>
+          <a href="#" class="foot-link">Graded Cards</a>
+          <a href="#" class="foot-link">Accessories</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-hi);margin-bottom:16px;">Games</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="singles.html?game=mtg" class="foot-link">Magic: The Gathering</a>
+          <a href="singles.html?game=pokemon" class="foot-link">Pokémon</a>
+          <a href="singles.html?game=ygo" class="foot-link">Yu-Gi-Oh!</a>
+          <a href="singles.html?game=lorcana" class="foot-link">Disney Lorcana</a>
+          <a href="singles.html?game=onepiece" class="foot-link">One Piece</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-hi);margin-bottom:16px;">Visit</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="events.html" class="foot-link" style="color:var(--cyan-400);">Events</a>
+          <a href="#" class="foot-link">About Us</a>
+          <a href="#" class="foot-link">Contact</a>
+          <a href="#" class="foot-link">Discord</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--void-400);padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <span style="font-size:13px;color:var(--text-faint);">© 2025 Wayward City Games. All rights reserved.</span>
+      <span style="font-size:13px;color:var(--text-faint);">Portland, OR</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Search Overlay -->
+<div id="search-overlay" style="display:none;position:fixed;inset:0;background:rgba(5,5,12,0.95);backdrop-filter:blur(16px);z-index:300;flex-direction:column;align-items:center;padding-top:15vh;">
+  <div style="width:100%;max-width:640px;padding:0 24px;position:relative;">
+    <input id="search-input" class="ww-input" type="text" placeholder="Search events, games, formats..." style="width:100%;height:56px;font-size:18px;padding:0 56px 0 20px;">
+    <button onclick="closeSearch()" style="position:absolute;right:32px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<style>
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+</style>
+
+<script>
+const EVENTS = [
+  {id:'e1',title:'Friday Night Magic',game:'mtg',gameLabel:'Magic',type:'competitive',format:'Standard',entry:'Free',seats:'14 left',accentColor:'#38c6ff',dow:5,time:'6:00 PM',desc:'Standard format, best 3-of-5 rounds. Prize support for top finishers.'},
+  {id:'e2',title:'Commander Night',game:'mtg',gameLabel:'Magic',type:'casual',format:'Commander',entry:'Free',seats:'24 left',accentColor:'#a567ff',dow:1,time:'6:00 PM',desc:'Bring your Commander deck and find a pod. All power levels welcome.'},
+  {id:'e3',title:'Pokémon League',game:'pokemon',gameLabel:'Pokémon',type:'league',format:'Standard',entry:'Free',seats:'Open',accentColor:'#ff9a55',dow:6,time:'12:00 PM',desc:'Official Pokémon League — earn League Points and stamps for prizes.'},
+  {id:'e4',title:"Yu-Gi-Oh! Locals",game:'ygo',gameLabel:'Yu-Gi-Oh!',type:'competitive',format:'Advanced',entry:'$5',seats:'16 seats',accentColor:'#ff4fa3',dow:2,time:'6:00 PM',desc:'Advanced format, Swiss rounds. Cash prizes for top 4.'},
+  {id:'e5',title:'Flesh & Blood Armory',game:'fab',gameLabel:'Flesh & Blood',type:'competitive',format:'Blitz',entry:'$10',seats:'12 left',accentColor:'#ff4d5e',dow:3,time:'6:00 PM',desc:'Official Armory event. Blitz format. Invite points on the line.'},
+  {id:'e6',title:'Booster Draft',game:'mtg',gameLabel:'Magic',type:'competitive',format:'Draft',entry:'$15',seats:'8 left',accentColor:'#38c6ff',dow:4,time:'6:00 PM',desc:'Draft 3 packs, build a 40-card deck, play 3 rounds. Keep what you draft.'},
+  {id:'e7',title:'One Piece Locals',game:'onepiece',gameLabel:'One Piece',type:'competitive',format:'Standard',entry:'Free',seats:'20 seats',accentColor:'#ff7a3c',dow:0,time:'1:00 PM',desc:'Official Bandai event. Prizes and leader boards for top finishers.'},
+  {id:'e8',title:'Lorcana Open Play',game:'lorcana',gameLabel:'Lorcana',type:'casual',format:'Open Play',entry:'Free',seats:'Open',accentColor:'#a567ff',dow:6,time:'4:00 PM',desc:'Casual Lorcana open play. Bring any deck and find a match.'},
+];
+
+const GAME_TABS = [
+  {key:'all',label:'All'},
+  {key:'mtg',label:'Magic'},
+  {key:'pokemon',label:'Pokémon'},
+  {key:'lorcana',label:'Lorcana'},
+  {key:'ygo',label:'Yu-Gi-Oh!'},
+  {key:'onepiece',label:'One Piece'},
+  {key:'fab',label:'Flesh & Blood'},
+  {key:'digimon',label:'Digimon'},
+  {key:'sw',label:'Star Wars'},
+];
+
+const TYPE_FILTERS = [
+  {key:'all',label:'All Events'},
+  {key:'casual',label:'Casual'},
+  {key:'competitive',label:'Competitive'},
+  {key:'league',label:'League'},
+  {key:'draft',label:'Draft'},
+];
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+let activeGame = 'all';
+let activeType = 'all';
+let currentView = 'list';
+
+function getUpcomingEvents() {
+  const now = new Date();
+  const today = now.getDay();
+  const events = [];
+  // Generate 3 weeks of events
+  for (let week = 0; week < 3; week++) {
+    EVENTS.forEach(ev => {
+      if (activeGame !== 'all' && ev.game !== activeGame) return;
+      if (activeType !== 'all' && ev.type !== activeType && ev.format.toLowerCase() !== activeType) return;
+      let daysFromToday = (ev.dow - today + 7) % 7;
+      if (week === 0 && daysFromToday === 0) {
+        // Check if today's event time has passed
+        const [hr, min] = ev.time.replace(' PM','').replace(' AM','').split(':').map(Number);
+        const isPM = ev.time.includes('PM') && hr !== 12;
+        const eventHour = isPM ? hr + 12 : hr;
+        if (now.getHours() >= eventHour + 3) daysFromToday = 7; // past, push to next week
+      }
+      if (week > 0) daysFromToday += week * 7;
+      const date = new Date(now);
+      date.setDate(now.getDate() + daysFromToday);
+      events.push({...ev, date, daysFromToday});
+    });
+  }
+  events.sort((a,b) => a.date - b.date);
+  // Deduplicate by id+week
+  const seen = new Set();
+  return events.filter(ev => {
+    const key = ev.id + '_' + ev.date.toDateString();
+    if (seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+}
+
+function formatDate(date) {
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  return days[date.getDay()] + ', ' + MONTHS[date.getMonth()] + ' ' + date.getDate();
+}
+
+function renderTabs() {
+  const c = document.getElementById('game-tabs');
+  c.innerHTML = '';
+  GAME_TABS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'game-tab' + (t.key === activeGame ? ' active' : '');
+    btn.textContent = t.label;
+    btn.onclick = () => { activeGame = t.key; renderTabs(); renderEvents(); };
+    c.appendChild(btn);
+  });
+}
+
+function renderTypeFilters() {
+  const c = document.getElementById('type-filters');
+  c.innerHTML = '';
+  TYPE_FILTERS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'type-pill' + (t.key === activeType ? ' active' : '');
+    btn.textContent = t.label;
+    btn.onclick = () => { activeType = t.key; renderTypeFilters(); renderEvents(); };
+    c.appendChild(btn);
+  });
+}
+
+function renderEvents() {
+  const events = getUpcomingEvents();
+  const grid = document.getElementById('events-grid');
+  const noEv = document.getElementById('no-events');
+  grid.innerHTML = '';
+  if (!events.length) { noEv.style.display = 'block'; return; }
+  noEv.style.display = 'none';
+
+  // Update featured
+  const tonight = events[0];
+  document.getElementById('featured-datetime').textContent = formatDate(tonight.date) + ' · ' + tonight.time;
+
+  events.forEach(ev => {
+    const card = document.createElement('div');
+    card.className = 'event-card';
+    const isToday = ev.daysFromToday === 0 || ev.daysFromToday < 1;
+    card.innerHTML = `
+      <div style="height:4px;background:${ev.accentColor};"></div>
+      <div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:12px;flex:1;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+          <span style="display:inline-flex;padding:3px 10px;border-radius:99px;font-family:var(--font-heading);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:${ev.accentColor}22;color:${ev.accentColor};border:1px solid ${ev.accentColor}44;">${ev.gameLabel}</span>
+          ${isToday ? `<span style="font-family:var(--font-heading);font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--warning);background:rgba(255,178,60,0.1);border:1px solid rgba(255,178,60,0.3);padding:3px 8px;border-radius:4px;">Tonight</span>` : ''}
+        </div>
+        <div>
+          <div style="font-family:var(--font-display);font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:0.12em;margin-bottom:4px;">${MONTHS[ev.date.getMonth()].toUpperCase()} ${ev.date.getDate()}</div>
+          <div style="font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--text-hi);line-height:1.2;">${ev.title}</div>
+        </div>
+        <p style="font-size:14px;font-weight:500;color:var(--text-muted);line-height:1.55;flex:1;">${ev.desc}</p>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-top:8px;border-top:1px solid var(--void-400);">
+          <span style="font-family:var(--font-heading);font-size:11px;font-weight:600;color:var(--text-muted);">${ev.time}</span>
+          <span style="font-family:var(--font-heading);font-size:11px;font-weight:700;color:${ev.entry === 'Free' ? 'var(--success)' : 'var(--text-hi)'};">${ev.entry}</span>
+          <span style="font-family:var(--font-heading);font-size:11px;font-weight:600;color:var(--text-muted);">${ev.seats}</span>
+          <button style="margin-left:auto;display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:var(--radius-sm);border:1px solid ${ev.accentColor}55;background:${ev.accentColor}11;color:${ev.accentColor};font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:var(--transition-base);" onmouseover="this.style.background='${ev.accentColor}28'" onmouseout="this.style.background='${ev.accentColor}11'">Register</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function renderCalendar() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  document.getElementById('cal-month-label').textContent = MONTHS[month] + ' ' + year;
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  // Header
+  DAYS_SHORT.forEach(d => {
+    const cell = document.createElement('div');
+    cell.style.cssText = 'background:var(--void-600);padding:10px 4px;text-align:center;font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--void-400);';
+    cell.textContent = d;
+    grid.appendChild(cell);
+  });
+
+  // Empty cells before first day
+  for (let i = 0; i < firstDay; i++) {
+    const cell = document.createElement('div');
+    cell.style.cssText = 'background:var(--void-800);min-height:90px;border-right:1px solid var(--void-400);border-bottom:1px solid var(--void-400);';
+    grid.appendChild(cell);
+  }
+
+  // Day cells
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dow = (firstDay + d - 1) % 7;
+    const isToday = d === now.getDate();
+    const eventsOnDay = EVENTS.filter(ev => ev.dow === dow);
+    const cell = document.createElement('div');
+    cell.style.cssText = `background:${isToday ? 'var(--void-600)' : 'var(--void-700)'};min-height:90px;border-right:1px solid var(--void-400);border-bottom:1px solid var(--void-400);padding:8px 6px;position:relative;`;
+    cell.innerHTML = `<div style="font-family:var(--font-heading);font-size:13px;font-weight:${isToday ? '800' : '600'};color:${isToday ? 'var(--cyan-400)' : 'var(--text-muted)'};margin-bottom:6px;${isToday ? 'text-shadow:var(--glow-text-cyan);' : ''}">${d}</div>` +
+      eventsOnDay.map(ev => `<div style="margin-bottom:3px;padding:3px 6px;border-radius:3px;background:${ev.accentColor}22;border-left:2px solid ${ev.accentColor};font-family:var(--font-heading);font-size:10px;font-weight:600;color:${ev.accentColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${ev.title}</div>`).join('');
+    grid.appendChild(cell);
+  }
+}
+
+function setView(view) {
+  currentView = view;
+  document.getElementById('list-view').style.display = view === 'list' ? 'block' : 'none';
+  document.getElementById('cal-view').style.display = view === 'calendar' ? 'block' : 'none';
+  document.getElementById('view-list-btn').classList.toggle('active', view === 'list');
+  document.getElementById('view-cal-btn').classList.toggle('active', view === 'calendar');
+  if (view === 'calendar') renderCalendar();
+}
+
+// Mega menu
+const navShop = document.getElementById('nav-shop'), megaMenu = document.getElementById('mega-menu');
+let megaTimeout;
+navShop.addEventListener('mouseenter', () => { clearTimeout(megaTimeout); megaMenu.style.display = 'block'; });
+navShop.addEventListener('mouseleave', () => { megaTimeout = setTimeout(() => megaMenu.style.display = 'none', 200); });
+megaMenu.addEventListener('mouseenter', () => clearTimeout(megaTimeout));
+megaMenu.addEventListener('mouseleave', () => { megaTimeout = setTimeout(() => megaMenu.style.display = 'none', 200); });
+
+// Mobile menu
+document.getElementById('hamburger-btn').addEventListener('click', () => {
+  const m = document.getElementById('mobile-menu');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+});
+
+// Search
+function closeSearch() { document.getElementById('search-overlay').style.display = 'none'; }
+document.getElementById('search-btn').addEventListener('click', () => {
+  document.getElementById('search-overlay').style.display = 'flex';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
+
+// Countdown to next Friday 6 PM
+function updateCountdown() {
+  const now = new Date(), target = new Date();
+  const daysUntilFri = ((5 - now.getDay()) + 7) % 7 || 7;
+  target.setDate(now.getDate() + daysUntilFri);
+  target.setHours(18, 0, 0, 0);
+  const diff = target - now;
+  if (diff <= 0) return;
+  const pad = n => String(Math.floor(n)).padStart(2, '0');
+  document.getElementById('cd-h').textContent = pad(diff / 3600000);
+  document.getElementById('cd-m').textContent = pad((diff % 3600000) / 60000);
+  document.getElementById('cd-s').textContent = pad((diff % 60000) / 1000);
+}
+updateCountdown(); setInterval(updateCountdown, 1000);
+
+// Init
+renderTabs();
+renderTypeFilters();
+renderEvents();
+</script>
+</body>
+</html>

@@ -162,8 +162,8 @@ body::-webkit-scrollbar-thumb{background:#2a2a45;border-radius:5px;}
         <span id="nav-shop" style="display:flex;align-items:center;gap:6px;font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-hi);cursor:pointer;padding:26px 0;transition:color 160ms;">Shop
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </span>
-        <span onclick="scrollToId('sec-drops')" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);cursor:pointer;transition:color 160ms;" onmouseover="this.style.color='var(--cyan-400)';this.style.textShadow='var(--glow-text-cyan)'" onmouseout="this.style.color='var(--text-body)';this.style.textShadow=''">Singles</span>
-        <span onclick="scrollToId('sec-events')" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);cursor:pointer;transition:color 160ms;" onmouseover="this.style.color='var(--cyan-400)';this.style.textShadow='var(--glow-text-cyan)'" onmouseout="this.style.color='var(--text-body)';this.style.textShadow=''">Events</span>
+        <a href="singles.html" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);text-decoration:none;transition:color 160ms;" onmouseover="this.style.color='var(--cyan-400)';this.style.textShadow='var(--glow-text-cyan)'" onmouseout="this.style.color='var(--text-body)';this.style.textShadow=''">Singles</a>
+        <a href="events.html" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);text-decoration:none;transition:color 160ms;" onmouseover="this.style.color='var(--cyan-400)';this.style.textShadow='var(--glow-text-cyan)'" onmouseout="this.style.color='var(--text-body)';this.style.textShadow=''">Events</a>
         <span onclick="scrollToId('sec-sealed')" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);cursor:pointer;transition:color 160ms;" onmouseover="this.style.color='var(--cyan-400)';this.style.textShadow='var(--glow-text-cyan)'" onmouseout="this.style.color='var(--text-body)';this.style.textShadow=''">Deals</span>
         <span style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);cursor:pointer;transition:color 160ms;" onmouseover="this.style.color='var(--cyan-400)';this.style.textShadow='var(--glow-text-cyan)'" onmouseout="this.style.color='var(--text-body)';this.style.textShadow=''">About</span>
       </nav>
@@ -193,20 +193,20 @@ body::-webkit-scrollbar-thumb{background:#2a2a45;border-radius:5px;}
       <div>
         <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;">By Game</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 32px;">
-          <span class="mega-link">Magic: The Gathering</span>
-          <span class="mega-link">Pokémon</span>
-          <span class="mega-link">Yu-Gi-Oh!</span>
-          <span class="mega-link">One Piece Card Game</span>
-          <span class="mega-link">Disney Lorcana</span>
-          <span class="mega-link">Flesh and Blood</span>
-          <span class="mega-link">Digimon</span>
-          <span class="mega-link">Star Wars Unlimited</span>
+          <a href="singles.html?game=mtg" class="mega-link">Magic: The Gathering</a>
+          <a href="singles.html?game=pokemon" class="mega-link">Pokémon</a>
+          <a href="singles.html?game=ygo" class="mega-link">Yu-Gi-Oh!</a>
+          <a href="singles.html?game=onepiece" class="mega-link">One Piece Card Game</a>
+          <a href="singles.html?game=lorcana" class="mega-link">Disney Lorcana</a>
+          <a href="singles.html?game=fab" class="mega-link">Flesh and Blood</a>
+          <a href="singles.html?game=digimon" class="mega-link">Digimon</a>
+          <a href="singles.html?game=sw" class="mega-link">Star Wars Unlimited</a>
         </div>
       </div>
       <div>
         <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;">By Product</div>
         <div style="display:flex;flex-direction:column;gap:12px;">
-          <span class="mega-link">Singles</span>
+          <a href="singles.html" class="mega-link">Singles</a>
           <span class="mega-link">Sealed Product</span>
           <span class="mega-link">Graded Cards</span>
           <span class="mega-link">Accessories</span>
@@ -226,8 +226,8 @@ body::-webkit-scrollbar-thumb{background:#2a2a45;border-radius:5px;}
   <div id="mobile-menu" style="display:none;position:absolute;top:100%;left:0;right:0;background:rgba(8,8,18,0.98);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--void-400);box-shadow:var(--shadow-lg);">
     <div style="max-width:1504px;margin:0 auto;padding:10px 32px 22px;display:flex;flex-direction:column;">
       <span onclick="scrollToId('sec-drops');closeMobileMenu()" class="mobile-nav-link">Shop</span>
-      <span onclick="scrollToId('sec-drops');closeMobileMenu()" class="mobile-nav-link">Singles</span>
-      <span onclick="scrollToId('sec-events');closeMobileMenu()" class="mobile-nav-link">Events</span>
+      <a href="singles.html" class="mobile-nav-link">Singles</a>
+      <a href="events.html" class="mobile-nav-link">Events</a>
       <span onclick="scrollToId('sec-sealed');closeMobileMenu()" class="mobile-nav-link">Deals</span>
       <span onclick="closeMobileMenu()" class="mobile-nav-link">About</span>
     </div>
