@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nahiri's Lithoforming — Wayward City Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Chakra+Petch:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void-900:#05050c; --void-800:#0a0a14; --void-700:#10101e; --void-600:#161628;
+  --void-500:#1f1f36; --void-400:#2a2a45; --void-300:#3a3a5c; --ink-black:#000000;
+  --cyan-400:#38c6ff; --cyan-500:#18a8f0;
+  --magenta-400:#ff4fa3; --magenta-500:#f5197f; --magenta-600:#d10f6a;
+  --purple-400:#a567ff; --purple-500:#7a3ff2; --purple-600:#5e27c9;
+  --orange-400:#ff9a55;
+  --warning:#ffb23c; --success:#2fd47e; --danger:#ff4d5e;
+  --text-hi:#ffffff; --text-body:#c5c6da; --text-muted:#8688a3; --text-faint:#5c5e78;
+  --font-display:'Orbitron','Chakra Petch',sans-serif;
+  --font-heading:'Chakra Petch','Rajdhani',sans-serif;
+  --font-body:'Rajdhani','Chakra Petch',system-ui,sans-serif;
+  --grad-chrome:linear-gradient(95deg,#41d1fd 0%,#5ccffd 24%,#9cd8f4 38%,#f250aa 56%,#fc537e 80%,#fb856f 100%);
+  --shadow-lg:0 18px 48px rgba(0,0,0,0.6); --shadow-md:0 6px 20px rgba(0,0,0,0.4);
+  --glow-cyan-sm:0 0 0 1px rgba(56,198,255,0.6),0 0 12px rgba(56,198,255,0.55);
+  --glow-magenta-sm:0 0 0 1px rgba(245,25,127,0.6),0 0 12px rgba(245,25,127,0.55);
+  --glow-text-cyan:0 0 10px rgba(56,198,255,0.7),0 0 24px rgba(24,168,240,0.4);
+  --glow-text-magenta:0 0 10px rgba(245,25,127,0.7);
+  --grid-line:rgba(56,198,255,0.06);
+  --radius-sm:4px; --radius-md:6px; --radius-lg:10px;
+  --ease-out:cubic-bezier(0.16,1,0.3,1); --transition-base:all 200ms var(--ease-out);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--void-900);color:var(--text-body);font-family:var(--font-body);min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;}
+body::-webkit-scrollbar{width:10px;}
+body::-webkit-scrollbar-track{background:#05050c;}
+body::-webkit-scrollbar-thumb{background:#2a2a45;border-radius:5px;}
+::selection{background:rgba(245,25,127,0.45);color:#fff;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:var(--radius-md);font-family:var(--font-heading);font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:var(--transition-base);}
+.btn-primary{background:var(--magenta-500);color:#fff;padding:0 28px;height:56px;font-size:15px;box-shadow:var(--glow-magenta-sm);}
+.btn-primary:hover{background:var(--magenta-400);box-shadow:0 0 0 1px rgba(245,25,127,0.8),0 0 24px rgba(245,25,127,0.6);}
+.btn-outline{background:transparent;color:var(--text-hi);padding:0 24px;height:48px;border:1px solid var(--void-300);}
+.btn-outline:hover{border-color:var(--cyan-400);color:var(--cyan-400);}
+.btn-sm{height:36px;font-size:12px;padding:0 16px;}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:var(--radius-md);border:none;background:transparent;color:var(--text-body);transition:var(--transition-base);}
+.icon-btn:hover{background:rgba(255,255,255,0.06);color:var(--text-hi);}
+.icon-btn.outline{border:1px solid var(--void-400);}
+.ww-input{background:var(--void-600);border:1px solid var(--void-400);border-radius:var(--radius-md);color:var(--text-hi);font-family:var(--font-body);font-size:14px;padding:0 14px;outline:none;transition:border-color 160ms;}
+.ww-input:focus{border-color:var(--cyan-500);}
+.mega-link{font-family:var(--font-heading);font-size:14px;font-weight:500;color:var(--text-body);transition:color 160ms;}
+.mega-link:hover{color:var(--cyan-400);}
+.mobile-nav-link{display:block;font-family:var(--font-heading);font-size:16px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-hi);padding:16px 4px;border-bottom:1px solid var(--void-400);transition:color 160ms;}
+.mobile-nav-link:hover{color:var(--cyan-400);}
+.foot-link{font-size:14px;font-weight:500;color:var(--text-muted);transition:color 160ms;}
+.foot-link:hover{color:var(--cyan-400);}
+.ww-hamburger{display:none !important;}
+@media(max-width:1080px){.ww-nav-desktop{display:none !important;}.ww-hamburger{display:flex !important;}}
+@media(max-width:860px){.pd-grid{grid-template-columns:1fr !important;}.pd-img-col{max-width:480px;margin:0 auto;width:100%;}}
+@media(max-width:600px){.ww-footer-grid{grid-template-columns:1fr !important;}}
+
+/* Condition/Finish selector buttons */
+.cond-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 18px;border-radius:var(--radius-md);border:1px solid var(--void-400);background:var(--void-600);cursor:pointer;transition:border-color 180ms,box-shadow 180ms,background 180ms;min-width:72px;}
+.cond-btn:hover{border-color:var(--void-300);background:var(--void-500);}
+.cond-btn.active{border-color:var(--cyan-400);background:rgba(56,198,255,0.08);box-shadow:var(--glow-cyan-sm);}
+.cond-label{font-family:var(--font-heading);font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-hi);}
+.cond-price{font-family:var(--font-heading);font-size:11px;font-weight:600;color:var(--text-muted);}
+
+.finish-btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;border-radius:var(--radius-md);border:1px solid var(--void-400);background:var(--void-600);font-family:var(--font-heading);font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-body);cursor:pointer;transition:border-color 180ms,box-shadow 180ms,background 180ms;}
+.finish-btn:hover{border-color:var(--void-300);color:var(--text-hi);}
+.finish-btn.active{border-color:var(--magenta-400);background:rgba(245,25,127,0.08);color:var(--magenta-400);box-shadow:var(--glow-magenta-sm);}
+
+/* Qty stepper */
+.qty-stepper{display:inline-flex;align-items:center;border:1px solid var(--void-400);border-radius:var(--radius-md);overflow:hidden;height:48px;}
+.qty-stepper button{width:48px;height:48px;border:none;background:var(--void-600);color:var(--text-body);font-size:22px;cursor:pointer;transition:background 160ms,color 160ms;display:flex;align-items:center;justify-content:center;}
+.qty-stepper button:hover{background:var(--void-500);color:var(--text-hi);}
+.qty-stepper span{min-width:48px;text-align:center;font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--text-hi);border-left:1px solid var(--void-400);border-right:1px solid var(--void-400);}
+
+/* Accordion */
+.accordion-item{border-bottom:1px solid var(--void-400);}
+.accordion-trigger{display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 0;background:none;border:none;font-family:var(--font-heading);font-size:14px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-hi);cursor:pointer;gap:8px;}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height 280ms var(--ease-out);}
+.accordion-item.open .accordion-body{max-height:300px;}
+.accordion-chevron{transition:transform 280ms var(--ease-out);flex-shrink:0;}
+.accordion-item.open .accordion-chevron{transform:rotate(180deg);}
+
+/* Product card (related) */
+.product-card{display:flex;flex-direction:column;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.55);cursor:pointer;transition:box-shadow 200ms,transform 200ms;}
+.product-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.6),0 0 0 2px var(--cyan-500),0 0 18px rgba(56,198,255,0.25);transform:translateY(-3px);}
+</style>
+</head>
+<body>
+
+<!-- Announcement bar -->
+<div style="position:relative;z-index:60;background:linear-gradient(90deg,var(--magenta-600) 0%,var(--magenta-500) 45%,var(--purple-500) 100%);color:#fff;">
+  <div style="max-width:1504px;margin:0 auto;padding:0 48px;height:42px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <div style="display:flex;align-items:baseline;gap:10px;font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;">
+      <span>Friday Night Magic — tonight at 6 PM</span>
+      <span style="color:rgba(255,255,255,0.55);">·</span>
+      <a href="events.html" style="text-decoration:underline;text-underline-offset:3px;color:inherit;">Reserve your seat</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span style="font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:0.22em;color:rgba(255,255,255,0.75);text-transform:uppercase;">Starts in</span>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span id="cd-h" style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;min-width:22px;text-align:center;">--</span><span style="font-size:8px;font-family:var(--font-heading);letter-spacing:0.16em;color:rgba(255,255,255,0.65);">HRS</span></div>
+        <span style="color:rgba(255,255,255,0.5);">:</span>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span id="cd-m" style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;min-width:22px;text-align:center;">--</span><span style="font-size:8px;font-family:var(--font-heading);letter-spacing:0.16em;color:rgba(255,255,255,0.65);">MIN</span></div>
+        <span style="color:rgba(255,255,255,0.5);">:</span>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:1px;"><span id="cd-s" style="font-family:var(--font-display);font-size:13px;font-weight:700;color:#fff;min-width:22px;text-align:center;">--</span><span style="font-size:8px;font-family:var(--font-heading);letter-spacing:0.16em;color:rgba(255,255,255,0.65);">SEC</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky Header -->
+<div id="site-header" style="position:sticky;top:0;z-index:80;background:rgba(5,5,12,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--void-400);">
+  <div style="max-width:1504px;margin:0 auto;padding:0 48px;height:72px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="ww-hamburger icon-btn outline" id="hamburger-btn" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg>
+      </button>
+      <nav class="ww-nav-desktop" style="display:flex;align-items:center;gap:30px;">
+        <span id="nav-shop" style="display:flex;align-items:center;gap:6px;font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-hi);cursor:pointer;padding:26px 0;">Shop
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+        <a href="singles.html" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-hi);text-shadow:var(--glow-text-cyan);">Singles</a>
+        <a href="events.html" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-body)'">Events</a>
+        <a href="index.html#sec-sealed" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-body)'">Deals</a>
+        <a href="#" style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-body);" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-body)'">About</a>
+      </nav>
+    </div>
+    <a href="index.html"><img src="assets/logo-wordmark.png" alt="Wayward City" class="ww-logo" id="site-logo" style="height:83px;transform:translateY(14px);position:relative;z-index:2;cursor:pointer;filter:drop-shadow(0 6px 16px rgba(5,5,12,0.7));transition:height 320ms var(--ease-out),transform 320ms var(--ease-out);"></a>
+    <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;">
+      <button class="icon-btn" id="search-btn" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Account">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <div style="position:relative;">
+        <button class="icon-btn" id="cart-btn" aria-label="Cart">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </button>
+        <span id="cart-badge" style="display:none;position:absolute;top:-2px;right:-4px;min-width:17px;height:17px;border-radius:99px;background:var(--magenta-500);color:#fff;font-family:var(--font-heading);font-size:10px;font-weight:700;align-items:center;justify-content:center;padding:0 4px;pointer-events:none;"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mega menu -->
+  <div id="mega-menu" style="display:none;position:absolute;top:100%;left:0;right:0;background:rgba(8,8,18,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--void-400);box-shadow:var(--shadow-lg);">
+    <div style="max-width:1280px;margin:0 auto;padding:40px 48px 44px;display:grid;grid-template-columns:1.4fr 1fr 1.1fr;gap:56px;">
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;">By Game</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 32px;">
+          <a href="singles.html?game=mtg" class="mega-link">Magic: The Gathering</a>
+          <a href="singles.html?game=pokemon" class="mega-link">Pokémon</a>
+          <a href="singles.html?game=ygo" class="mega-link">Yu-Gi-Oh!</a>
+          <a href="singles.html?game=onepiece" class="mega-link">One Piece Card Game</a>
+          <a href="singles.html?game=lorcana" class="mega-link">Disney Lorcana</a>
+          <a href="singles.html?game=fab" class="mega-link">Flesh and Blood</a>
+          <a href="singles.html?game=digimon" class="mega-link">Digimon</a>
+          <a href="singles.html?game=sw" class="mega-link">Star Wars Unlimited</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;">By Product</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <a href="singles.html" class="mega-link">Singles</a>
+          <span class="mega-link">Sealed Product</span>
+          <span class="mega-link">Graded Cards</span>
+          <span class="mega-link">Accessories</span>
+          <span class="mega-link">Buylist</span>
+        </div>
+      </div>
+      <a href="index.html#sec-sealed" style="position:relative;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--void-400);min-height:180px;display:block;background-image:url('assets/megamenu-skyline.png');background-size:cover;background-position:center;" onmouseover="this.style.borderColor='var(--magenta-500)';this.style.boxShadow='var(--glow-magenta-sm)'" onmouseout="this.style.borderColor='var(--void-400)';this.style.boxShadow=''">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,12,0.05) 0%,rgba(5,5,12,0.35) 45%,rgba(5,5,12,0.9) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;gap:4px;">
+          <span style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--magenta-400);">Hot Deals</span>
+          <span style="font-family:var(--font-heading);font-size:17px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-hi);">Shop all deals →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" style="display:none;position:absolute;top:100%;left:0;right:0;background:rgba(8,8,18,0.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--void-400);">
+    <div style="max-width:1504px;margin:0 auto;padding:10px 32px 22px;display:flex;flex-direction:column;">
+      <span class="mobile-nav-link">Shop</span>
+      <a href="singles.html" class="mobile-nav-link">Singles</a>
+      <a href="events.html" class="mobile-nav-link">Events</a>
+      <a href="index.html#sec-sealed" class="mobile-nav-link">Deals</a>
+      <a href="#" class="mobile-nav-link">About</a>
+    </div>
+  </div>
+</div>
+
+<!-- Breadcrumb -->
+<div style="background:var(--void-800);border-bottom:1px solid var(--void-400);">
+  <div style="max-width:1280px;margin:0 auto;padding:0 48px;height:48px;display:flex;align-items:center;">
+    <div style="font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:0.14em;color:var(--text-faint);display:flex;align-items:center;gap:10px;">
+      <a href="index.html" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-faint)'" style="transition:color 160ms;">Home</a>
+      <span style="color:var(--void-300);">/</span>
+      <a href="singles.html" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-faint)'" style="transition:color 160ms;">Singles</a>
+      <span style="color:var(--void-300);">/</span>
+      <a href="singles.html?game=mtg" onmouseover="this.style.color='var(--cyan-400)'" onmouseout="this.style.color='var(--text-faint)'" style="transition:color 160ms;">MTG · ZNR</a>
+    </div>
+  </div>
+</div>
+
+<!-- Product Detail -->
+<div style="max-width:1280px;margin:0 auto;padding:56px 48px 80px;">
+  <div class="pd-grid" style="display:grid;grid-template-columns:480px 1fr;gap:64px;align-items:start;">
+
+    <!-- Left: Image column -->
+    <div class="pd-img-col">
+      <!-- Main image -->
+      <div style="border-radius:20px;overflow:hidden;background:var(--void-700);border:1px solid var(--void-400);aspect-ratio:5/7;position:relative;box-shadow:var(--shadow-lg);">
+        <img id="main-image" src="assets/up-04.jpeg" alt="Nahiri's Lithoforming" style="width:100%;height:100%;object-fit:cover;transition:opacity 200ms;">
+      </div>
+      <!-- Thumbnail strip -->
+      <div style="display:flex;gap:10px;margin-top:14px;">
+        <button onclick="setImage('assets/up-04.jpeg', this)" style="width:72px;height:72px;border-radius:10px;overflow:hidden;border:2px solid var(--cyan-400);background:var(--void-700);padding:0;cursor:pointer;flex-shrink:0;" class="thumb-btn active">
+          <img src="assets/up-04.jpeg" style="width:100%;height:100%;object-fit:cover;">
+        </button>
+        <button onclick="setImage('assets/up-05.jpeg', this)" style="width:72px;height:72px;border-radius:10px;overflow:hidden;border:2px solid var(--void-400);background:var(--void-700);padding:0;cursor:pointer;flex-shrink:0;transition:border-color 160ms;" class="thumb-btn" onmouseover="this.style.borderColor='var(--void-300)'" onmouseout="if(!this.classList.contains('active'))this.style.borderColor='var(--void-400)'">
+          <img src="assets/up-05.jpeg" style="width:100%;height:100%;object-fit:cover;">
+        </button>
+        <button onclick="setImage('assets/up-06.jpeg', this)" style="width:72px;height:72px;border-radius:10px;overflow:hidden;border:2px solid var(--void-400);background:var(--void-700);padding:0;cursor:pointer;flex-shrink:0;transition:border-color 160ms;" class="thumb-btn" onmouseover="this.style.borderColor='var(--void-300)'" onmouseout="if(!this.classList.contains('active'))this.style.borderColor='var(--void-400)'">
+          <img src="assets/up-06.jpeg" style="width:100%;height:100%;object-fit:cover;">
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Info column -->
+    <div style="display:flex;flex-direction:column;gap:28px;">
+
+      <!-- In stock badge + game label -->
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:99px;background:rgba(47,212,126,0.1);border:1px solid rgba(47,212,126,0.4);">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--success);display:inline-block;animation:pulse 2s ease-in-out infinite;"></span>
+          <span style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--success);">In Stock</span>
+        </div>
+        <span style="font-family:var(--font-heading);font-size:12px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);">Magic · ZNR · Rare</span>
+      </div>
+
+      <!-- Title -->
+      <h1 style="font-family:var(--font-display);font-size:clamp(28px,3.2vw,44px);font-weight:900;text-transform:uppercase;color:var(--text-hi);line-height:1.0;letter-spacing:0.02em;">Nahiri's<br>Lithoforming</h1>
+
+      <!-- Price -->
+      <div>
+        <div id="display-price" style="font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--text-hi);">$4.99 USD</div>
+      </div>
+
+      <div style="height:1px;background:var(--void-400);"></div>
+
+      <!-- Condition selector -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <span style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);">Condition</span>
+          <a href="#" style="font-family:var(--font-heading);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan-400);text-decoration:none;border-bottom:1px solid rgba(56,198,255,0.4);">Condition Guide →</a>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;" id="cond-selector">
+          <button class="cond-btn active" data-cond="NM" data-price="4.99" onclick="selectCond(this)">
+            <span class="cond-label">NM</span>
+            <span class="cond-price">$4.99 USD</span>
+          </button>
+          <button class="cond-btn" data-cond="LP" data-price="3.99" onclick="selectCond(this)">
+            <span class="cond-label">LP</span>
+            <span class="cond-price">$3.99 USD</span>
+          </button>
+          <button class="cond-btn" data-cond="MP" data-price="3.24" onclick="selectCond(this)">
+            <span class="cond-label">MP</span>
+            <span class="cond-price">$3.24 USD</span>
+          </button>
+          <button class="cond-btn" data-cond="HP" data-price="2.50" onclick="selectCond(this)">
+            <span class="cond-label">HP</span>
+            <span class="cond-price">$2.50 USD</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Finish selector -->
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;">Finish</div>
+        <div style="display:flex;gap:10px;" id="finish-selector">
+          <button class="finish-btn active" data-finish="Normal" onclick="selectFinish(this)">Normal</button>
+          <button class="finish-btn" data-finish="Foil" onclick="selectFinish(this)">Foil</button>
+        </div>
+      </div>
+
+      <!-- Qty + Add to Cart -->
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+        <div class="qty-stepper">
+          <button onclick="changeQty(-1)">−</button>
+          <span id="qty-display">1</span>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+        <button onclick="addToCartFromPDP()" class="btn btn-primary" style="flex:1;min-width:200px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Add to Cart — <span id="cart-price-label">$4.99 USD</span>
+        </button>
+      </div>
+      <div id="added-msg" style="display:none;font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.1em;color:var(--success);">✓ Added to cart!</div>
+
+      <div style="height:1px;background:var(--void-400);"></div>
+
+      <!-- Pickup / Shipping accordion -->
+      <div style="display:flex;flex-direction:column;">
+        <div class="accordion-item open" id="acc-pickup">
+          <button class="accordion-trigger" onclick="toggleAccordion('acc-pickup')">
+            <span style="display:flex;align-items:center;gap:12px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              Free In-Store Pickup
+            </span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-body">
+            <div style="padding:0 0 18px 30px;font-size:15px;font-weight:500;color:var(--text-muted);line-height:1.6;">
+              Usually ready in 2 hours · <strong style="color:var(--text-body);">Wayward City Games, Tigard OR</strong><br>
+              <span style="font-size:13px;">1247 NE Alberta St · Portland, OR 97211</span>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item" id="acc-ship">
+          <button class="accordion-trigger" onclick="toggleAccordion('acc-ship')">
+            <span style="display:flex;align-items:center;gap:12px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.9 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Shipping Available
+            </span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-body">
+            <div style="padding:0 0 18px 30px;font-size:15px;font-weight:500;color:var(--text-muted);line-height:1.6;">
+              Orders before 2 PM ship same day · <strong style="color:var(--text-body);">Tracked + insured</strong><br>
+              <span style="font-size:13px;">Singles shipped in top-loaders & team bags.</span>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item" id="acc-game">
+          <button class="accordion-trigger" onclick="toggleAccordion('acc-game')">
+            <span style="display:flex;align-items:center;gap:12px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-400)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              Card Details
+            </span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="accordion-body">
+            <div style="padding:0 0 18px 30px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;">
+                <div><span style="font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-faint);">Game</span><div style="font-size:14px;font-weight:600;color:var(--text-body);margin-top:2px;">Magic: The Gathering</div></div>
+                <div><span style="font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-faint);">Set</span><div style="font-size:14px;font-weight:600;color:var(--text-body);margin-top:2px;">Zendikar Rising (ZNR)</div></div>
+                <div><span style="font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-faint);">Rarity</span><div style="font-size:14px;font-weight:600;color:var(--text-body);margin-top:2px;">Rare</div></div>
+                <div><span style="font-family:var(--font-heading);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-faint);">Type</span><div style="font-size:14px;font-weight:600;color:var(--text-body);margin-top:2px;">Sorcery</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Related Singles -->
+<section style="background:var(--void-800);border-top:1px solid var(--void-400);padding:56px 48px 72px;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+      <h2 style="font-family:var(--font-display);font-size:22px;font-weight:800;text-transform:uppercase;color:var(--text-hi);">More MTG Singles</h2>
+      <a href="singles.html?game=mtg" style="font-family:var(--font-heading);font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan-400);border-bottom:1px solid rgba(56,198,255,0.4);">View All →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:24px;" id="related-grid"></div>
+  </div>
+</section>
+
+<!-- Cart Drawer -->
+<div id="cart-scrim" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:190;opacity:0;transition:opacity 300ms;" onclick="closeCart()"></div>
+<div id="cart-drawer" style="display:none;position:fixed;right:0;top:0;bottom:0;width:400px;background:var(--void-800);border-left:1px solid var(--void-400);z-index:200;transform:translateX(440px);transition:transform 300ms var(--ease-out);flex-direction:column;">
+  <div style="padding:20px 24px;border-bottom:1px solid var(--void-400);display:flex;align-items:center;justify-content:space-between;">
+    <span style="font-family:var(--font-heading);font-size:15px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-hi);">Cart <span id="cart-count-label" style="color:var(--text-muted);">(0)</span></span>
+    <button onclick="closeCart()" class="icon-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="cart-empty" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:40px 24px;text-align:center;">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--void-300)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <div style="font-family:var(--font-heading);font-size:15px;font-weight:600;color:var(--text-muted);">Your cart is empty</div>
+    <div style="font-size:14px;color:var(--text-faint);">Add some singles to get started.</div>
+  </div>
+  <div id="cart-lines" style="display:none;flex:1;overflow-y:auto;padding:0 24px;flex-direction:column;"></div>
+  <div id="cart-footer" style="display:none;padding:20px 24px;border-top:1px solid var(--void-400);flex-direction:column;gap:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-family:var(--font-heading);font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);">Subtotal</span>
+      <span id="cart-subtotal" style="font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--text-hi);">$0.00</span>
+    </div>
+    <button onclick="document.getElementById('checkout-msg').style.display='block'" class="btn btn-primary" style="width:100%;height:52px;font-size:14px;">Proceed to Checkout</button>
+    <div id="checkout-msg" style="display:none;text-align:center;font-size:13px;color:var(--success);">✓ Order placed! We'll have it ready for pickup.</div>
+  </div>
+</div>
+
+<!-- Search Overlay -->
+<div id="search-overlay" style="display:none;position:fixed;inset:0;background:rgba(5,5,12,0.95);backdrop-filter:blur(16px);z-index:300;flex-direction:column;align-items:center;padding-top:15vh;">
+  <div style="width:100%;max-width:640px;padding:0 24px;position:relative;">
+    <input id="search-input" class="ww-input" type="text" placeholder="Search singles, games, sets..." style="width:100%;height:56px;font-size:18px;padding:0 56px 0 20px;">
+    <button onclick="closeSearch()" style="position:absolute;right:32px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer style="background:var(--void-800);border-top:1px solid var(--void-400);padding:64px 48px 48px;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="ww-footer-grid" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;">
+      <div>
+        <a href="index.html"><img src="assets/logo-wordmark.png" alt="Wayward City" style="height:44px;margin-bottom:20px;"></a>
+        <p style="font-size:15px;font-weight:500;line-height:1.6;color:var(--text-muted);max-width:280px;margin:0 0 20px;">Your tabletop home in Portland — singles, sealed & supplies across nine games.</p>
+        <div style="font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:0.1em;color:var(--text-faint);">1247 NE Alberta St · Portland, OR 97211</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-hi);margin-bottom:16px;">Shop</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="singles.html" class="foot-link">Singles</a>
+          <a href="#" class="foot-link">Sealed Product</a>
+          <a href="#" class="foot-link">Graded Cards</a>
+          <a href="#" class="foot-link">Accessories</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-hi);margin-bottom:16px;">Games</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="singles.html?game=mtg" class="foot-link">Magic: The Gathering</a>
+          <a href="singles.html?game=pokemon" class="foot-link">Pokémon</a>
+          <a href="singles.html?game=ygo" class="foot-link">Yu-Gi-Oh!</a>
+          <a href="singles.html?game=lorcana" class="foot-link">Disney Lorcana</a>
+          <a href="singles.html?game=onepiece" class="foot-link">One Piece</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-hi);margin-bottom:16px;">Visit</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="events.html" class="foot-link">Events</a>
+          <a href="#" class="foot-link">About Us</a>
+          <a href="#" class="foot-link">Contact</a>
+          <a href="#" class="foot-link">Discord</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--void-400);padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <span style="font-size:13px;color:var(--text-faint);">© 2025 Wayward City Games. All rights reserved.</span>
+      <span style="font-size:13px;color:var(--text-faint);">Portland, OR</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+</style>
+
+<script>
+// --- State ---
+let qty = 1;
+let selectedCond = 'NM';
+let selectedPrice = 4.99;
+let selectedFinish = 'Normal';
+let cart = [];
+
+const RELATED = [
+  {id:'c2',title:'Fall of the Titans',game:'mtg',gameLabel:'Magic',set:'BFZ',cond:'NM',finish:'Normal',price:2.49,image:'assets/up-18.jpeg',rarity:'Rare',inStock:true},
+  {id:'c3',title:'Archon of Emeria',game:'mtg',gameLabel:'Magic',set:'ZNR',cond:'NM',finish:'Normal',price:1.99,image:'assets/up-06.jpeg',rarity:'Rare',inStock:true},
+  {id:'c4',title:'Radiant Flames',game:'mtg',gameLabel:'Magic',set:'BFZ',cond:'NM',finish:'Normal',price:1.49,image:'assets/radiant-flames.png',rarity:'Rare',inStock:true},
+  {id:'c9',title:'Ruin Crab',game:'mtg',gameLabel:'Magic',set:'ZNR',cond:'NM',finish:'Normal',price:3.25,image:'assets/up-03.jpeg',rarity:'Common',inStock:true},
+  {id:'c10',title:'Skyclave Apparition',game:'mtg',gameLabel:'Magic',set:'ZNR',cond:'NM',finish:'Foil',price:18.99,image:'assets/up-05.jpeg',rarity:'Rare',inStock:true},
+];
+
+const fmt = n => '$' + n.toFixed(2);
+
+function updatePriceDisplay() {
+  const total = selectedPrice * qty;
+  document.getElementById('display-price').textContent = fmt(selectedPrice) + ' USD';
+  document.getElementById('cart-price-label').textContent = fmt(total) + ' USD';
+}
+
+function selectCond(btn) {
+  document.querySelectorAll('#cond-selector .cond-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedCond = btn.dataset.cond;
+  selectedPrice = parseFloat(btn.dataset.price);
+  updatePriceDisplay();
+}
+
+function selectFinish(btn) {
+  document.querySelectorAll('#finish-selector .finish-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedFinish = btn.dataset.finish;
+}
+
+function changeQty(delta) {
+  qty = Math.max(1, Math.min(99, qty + delta));
+  document.getElementById('qty-display').textContent = qty;
+  updatePriceDisplay();
+}
+
+function setImage(src, btn) {
+  document.getElementById('main-image').style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('main-image').src = src;
+    document.getElementById('main-image').style.opacity = '1';
+  }, 150);
+  document.querySelectorAll('.thumb-btn').forEach(b => {
+    b.classList.remove('active');
+    b.style.borderColor = 'var(--void-400)';
+  });
+  btn.classList.add('active');
+  btn.style.borderColor = 'var(--cyan-400)';
+}
+
+function toggleAccordion(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function addToCartFromPDP() {
+  const item = {id:'c1-pdp', title:"Nahiri's Lithoforming", gameLabel:'Magic', cond:selectedCond, finish:selectedFinish, price:selectedPrice, image:'assets/up-04.jpeg', inStock:true};
+  const existing = cart.find(l => l.id === item.id && l.cond === item.cond && l.finish === item.finish);
+  if (existing) existing.qty += qty; else cart.push({...item, qty});
+  renderCart(); openCart();
+  const msg = document.getElementById('added-msg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 2500);
+}
+
+function renderCart() {
+  const count = cart.reduce((a,l) => a + l.qty, 0);
+  const subtotal = cart.reduce((a,l) => a + l.price * l.qty, 0);
+  const badge = document.getElementById('cart-badge');
+  badge.textContent = count; badge.style.display = count > 0 ? 'flex' : 'none';
+  document.getElementById('cart-count-label').textContent = '(' + count + ')';
+  document.getElementById('cart-subtotal').textContent = fmt(subtotal);
+  const empty = document.getElementById('cart-empty');
+  const lines = document.getElementById('cart-lines');
+  const footer = document.getElementById('cart-footer');
+  if (!count) { empty.style.display = 'flex'; lines.style.display = 'none'; footer.style.display = 'none'; }
+  else { empty.style.display = 'none'; lines.style.display = 'flex'; footer.style.display = 'flex'; }
+  lines.innerHTML = '';
+  cart.forEach(l => {
+    const el = document.createElement('div');
+    el.style.cssText = 'display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--void-400);align-items:flex-start;';
+    el.innerHTML = `
+      <div style="width:56px;height:78px;flex:none;border-radius:4px;border:1px solid var(--void-400);background:var(--void-700);overflow:hidden;">${l.image ? `<img src="${l.image}" style="width:100%;height:100%;object-fit:cover;">` : ''}</div>
+      <div style="flex:1;min-width:0;">
+        <span style="font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--cyan-400);line-height:1.25;display:block;">${l.title}</span>
+        <span style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);">${l.gameLabel} · ${l.cond}${l.finish !== 'Normal' ? ' · ' + l.finish : ''}</span>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+          <button onclick="setQty('${l.id}','${l.cond}','${l.finish}',-1)" style="width:24px;height:24px;border-radius:4px;border:1px solid var(--void-300);background:transparent;color:var(--text-body);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;">−</button>
+          <span style="font-weight:700;color:var(--text-hi);min-width:16px;text-align:center;">${l.qty}</span>
+          <button onclick="setQty('${l.id}','${l.cond}','${l.finish}',1)" style="width:24px;height:24px;border-radius:4px;border:1px solid var(--void-300);background:transparent;color:var(--text-body);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;">+</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <span style="font-size:15px;font-weight:700;color:var(--text-hi);">${fmt(l.price * l.qty)}</span>
+        <span onclick="removeItem('${l.id}','${l.cond}','${l.finish}')" style="font-family:var(--font-heading);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-faint);cursor:pointer;text-decoration:underline;text-underline-offset:3px;" onmouseover="this.style.color='var(--magenta-400)'" onmouseout="this.style.color='var(--text-faint)'">Remove</span>
+      </div>`;
+    lines.appendChild(el);
+  });
+}
+
+function setQty(id, cond, finish, delta) {
+  const item = cart.find(l => l.id === id && l.cond === cond && l.finish === finish);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(l => !(l.id === id && l.cond === cond && l.finish === finish));
+  renderCart();
+}
+
+function removeItem(id, cond, finish) {
+  cart = cart.filter(l => !(l.id === id && l.cond === cond && l.finish === finish));
+  renderCart();
+}
+
+function openCart() {
+  const d = document.getElementById('cart-drawer'), s = document.getElementById('cart-scrim');
+  d.style.display = 'flex'; s.style.display = 'block';
+  requestAnimationFrame(() => { d.style.transform = 'translateX(0)'; s.style.opacity = '1'; });
+}
+function closeCart() {
+  const d = document.getElementById('cart-drawer'), s = document.getElementById('cart-scrim');
+  d.style.transform = 'translateX(440px)'; s.style.opacity = '0';
+  setTimeout(() => { d.style.display = 'none'; s.style.display = 'none'; }, 320);
+}
+document.getElementById('cart-btn').addEventListener('click', openCart);
+
+// Search
+function closeSearch() { document.getElementById('search-overlay').style.display = 'none'; }
+document.getElementById('search-btn').addEventListener('click', () => {
+  document.getElementById('search-overlay').style.display = 'flex';
+  setTimeout(() => document.getElementById('search-input').focus(), 50);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSearch(); closeCart(); } });
+
+// Mega menu
+const navShop = document.getElementById('nav-shop'), megaMenu = document.getElementById('mega-menu');
+let megaTimeout;
+navShop.addEventListener('mouseenter', () => { clearTimeout(megaTimeout); megaMenu.style.display = 'block'; });
+navShop.addEventListener('mouseleave', () => { megaTimeout = setTimeout(() => megaMenu.style.display = 'none', 200); });
+megaMenu.addEventListener('mouseenter', () => clearTimeout(megaTimeout));
+megaMenu.addEventListener('mouseleave', () => { megaTimeout = setTimeout(() => megaMenu.style.display = 'none', 200); });
+
+// Mobile menu
+document.getElementById('hamburger-btn').addEventListener('click', () => {
+  const m = document.getElementById('mobile-menu');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+});
+
+// Header scroll shrink
+window.addEventListener('scroll', () => {
+  const logo = document.getElementById('site-logo');
+  if (window.scrollY > 40) { logo.style.height = '50px'; logo.style.transform = 'translateY(0)'; }
+  else { logo.style.height = '83px'; logo.style.transform = 'translateY(14px)'; }
+});
+
+// Countdown
+function updateCountdown() {
+  const now = new Date(), target = new Date();
+  const daysUntilFri = ((5 - now.getDay()) + 7) % 7 || 7;
+  target.setDate(now.getDate() + daysUntilFri);
+  target.setHours(18, 0, 0, 0);
+  const diff = target - now;
+  if (diff <= 0) return;
+  const pad = n => String(Math.floor(n)).padStart(2, '0');
+  document.getElementById('cd-h').textContent = pad(diff / 3600000);
+  document.getElementById('cd-m').textContent = pad((diff % 3600000) / 60000);
+  document.getElementById('cd-s').textContent = pad((diff % 60000) / 1000);
+}
+updateCountdown(); setInterval(updateCountdown, 1000);
+
+// Related products
+const GAME_COLORS = {mtg:'#38c6ff',pokemon:'#ff9a55',lorcana:'#a567ff',ygo:'#ff4fa3',onepiece:'#ff7a3c',fab:'#ff4d5e',digimon:'#7fe0ff',sw:'#ffb23c'};
+const relGrid = document.getElementById('related-grid');
+RELATED.forEach(s => {
+  const card = document.createElement('a');
+  card.href = 'product-detail.html';
+  card.className = 'product-card';
+  const pCol = GAME_COLORS[s.game] || '#8688a3';
+  card.innerHTML = `
+    <div style="aspect-ratio:5/7;overflow:hidden;background:#e8e9f0;">
+      <img src="${s.image}" alt="${s.title}" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <div style="padding:12px 14px 14px;display:flex;flex-direction:column;gap:5px;">
+      <span style="display:inline-flex;padding:2px 8px;border-radius:99px;font-family:var(--font-heading);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:${pCol}22;color:${pCol};border:1px solid ${pCol}44;width:fit-content;">${s.gameLabel}</span>
+      <div style="font-family:var(--font-heading);font-size:12px;font-weight:700;color:#1a1a2e;line-height:1.3;">${s.title}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px;">
+        <span style="font-family:var(--font-heading);font-size:15px;font-weight:800;color:#1a1a2e;">${fmt(s.price)}</span>
+        <span style="font-family:var(--font-heading);font-size:10px;font-weight:600;color:#8688a3;">${s.cond}</span>
+      </div>
+    </div>`;
+  relGrid.appendChild(card);
+});
+
+renderCart();
+updatePriceDisplay();
+</script>
+</body>
+</html>
