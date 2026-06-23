@@ -169,7 +169,7 @@ body::-webkit-scrollbar-thumb{background:#2a2a45;border-radius:5px;}
       </nav>
     </div>
     <!-- Center: logo -->
-    <img src="assets/logo-wordmark.png" alt="Wayward City" class="ww-logo" id="site-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="height:83px;transform:translateY(14px);position:relative;z-index:2;cursor:pointer;filter:drop-shadow(0 6px 16px rgba(5,5,12,0.7));transition:height 320ms var(--ease-out),transform 320ms var(--ease-out),filter 320ms var(--ease-out);">
+    <a href="index.html"><img src="assets/logo-wordmark.png" alt="Wayward City" class="ww-logo" id="site-logo" style="height:83px;transform:translateY(14px);position:relative;z-index:2;filter:drop-shadow(0 6px 16px rgba(5,5,12,0.7));"></a>
     <!-- Right: icons -->
     <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;">
       <button class="icon-btn" id="search-btn" aria-label="Search">
@@ -688,17 +688,6 @@ popular.forEach((label, i) => {
   tagsEl.appendChild(t);
 });
 
-/* ── Header scroll behavior ───────────────────────────────────── */
-const logo = document.getElementById('site-logo');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 40) {
-    logo.style.height = '50px'; logo.style.transform = 'translateY(0)';
-    logo.style.filter = 'drop-shadow(0 2px 8px rgba(5,5,12,0.5))';
-  } else {
-    logo.style.height = '83px'; logo.style.transform = 'translateY(14px)';
-    logo.style.filter = 'drop-shadow(0 6px 16px rgba(5,5,12,0.7))';
-  }
-}, { passive: true });
 
 /* ── Mega menu ────────────────────────────────────────────────── */
 let megaT;
