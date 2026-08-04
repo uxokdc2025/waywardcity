@@ -14,7 +14,7 @@ We do **not** re-audit the whole site on every change. That doesn't scale and no
 4. **Full-site manual sweep** only at baseline, when a shared primitive changes, or on a periodic cadence (e.g. quarterly / before a launch).
 
 **Two layers, different scope — this is the key to it being cheap:**
-- **Automated (whole build, every time):** the project's lint step should run `jsx-a11y` (or the framework equivalent) — keep it at **zero errors**. Plus an `axe`/Lighthouse pass. Cheap, so it stays global.
+- **Automated (whole build, every time):** an `axe`/Lighthouse pass over every page. This project is static HTML, so there is no React and no `jsx-a11y` layer to lean on — axe *is* the automated layer here, and it is a **floor, not the gate**. Cheap, so it stays global.
 - **Manual (scoped to the diff):** keyboard + screen-reader + contrast on the changed surfaces only. This is the part that scales by staying diff-scoped.
 
 > Reality check: automated tools catch only ~30–40%. A green Lighthouse score is **not** "accessible." The manual pass on changed surfaces is where the real coverage comes from.
@@ -47,8 +47,8 @@ We do **not** re-audit the whole site on every change. That doesn't scale and no
 - [ ] Errors identified **in text** at the field, describing the fix — not by color/position alone.
 
 ### CI / gate
-- [ ] Lint clean, `jsx-a11y` (or equivalent) rules at zero.
-- [ ] `axe` / Lighthouse a11y pass on the changed pages.
+- [ ] No lint layer — this is static HTML, not React. **axe plus the manual pass is the whole automated gate.**
+- [ ] `axe` / Lighthouse a11y pass on the changed pages. **This is the layer that actually catches things**; lint is only the floor.
 
 ---
 
